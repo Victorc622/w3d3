@@ -41,7 +41,7 @@ def return_number(a)
     return money_at_retirement
 end
 
-p return_number(30)
+# p return_number(30)
 
 # recursion 2
 # exp(b, 0) = 1
@@ -95,14 +95,61 @@ def deep_dup(arr)
 end
 
 # 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
-def fibonacci(n) 
-  arr = []
-  return [0] if n == 0
-  return [1] if n == 1
-  return [1] if n == 2
-  (0...n).each do |num|
-  arr << fibonacci(n - 1) + fibonacci(n - 2) 
+def fibonacci(n)                # n = 8
+  return [] if n <= 0
+  return [0] if n == 1
+  return [0, 1] if n == 2
+
+  fib = fibonacci(n - 1)        # fib = fibonacci(7) => [0, 1, 1, 2, 3, 5, 8]
+  fib << fib[-1] + fib[-2]      # fib << 8 + 5 = 13
 end
 
-return arr
+def iterative_fib(n)
+    i = 2
+    fib = [0, 1]
+    while i < n
+        fib << fib[i-1] + fib[i-2]
+        i += 1
+    end
+    return fib
 end
+
+# p iterative_fib(8) 
+
+def search(array, target)
+    array.each_with_index do |el, idx|
+        if el == target
+            return idx
+        end
+    end
+    return nil
+end    
+
+def bsearch(array, target)
+    return nil if array.empty?
+    return 0 if array.length == 1 && array.include?(target)
+
+    mid_index = array.length/2
+    first_half = array[0...mid_index]
+    second_half = array[mid_index + 1..-1]
+    mid_num = array[mid_index]
+
+    if mid_num == target
+        return mid_index
+    elsif mid_num > target
+        bsearch(first_half, target)
+    elsif mid_num < target
+        bsearch(second_half, target)
+    end       
+end
+
+p bsearch([1, 2], 1)
+p bsearch([2, 3, 4, 5], 3)
+
+p bsearch([1, 2, 3], 1) # => 0
+p bsearch([2, 3, 4, 5], 3) # => 1
+p bsearch([2, 4, 6, 8, 10], 6) # => 2
+p bsearch([1, 3, 4, 5, 9], 5) # => 3
+p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
+p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
+p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
