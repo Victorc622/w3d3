@@ -43,12 +43,66 @@ end
 
 p return_number(30)
 
-def exponentiation(base, number)
-    return 1 if number == 0
+# recursion 2
+# exp(b, 0) = 1
+# exp(b, 1) = b
+# exp(b, n) = exp(b, n / 2) ** 2             [for even n] n = power
+# exp(b, n) = b * (exp(b, (n - 1) / 2) ** 2) [for odd n]
 
-    
-
+def exponent(base, power)
+    return 1 if power == 0
+    return base if power == 1
+    smaller_power = power - 1
+    if power.even?
+      exponent(base, power / 2) ** 2
+    else
+       base * (exponent(base, smaller_power) / 2) ** 2
+    end
 end
 
-exp(0,0) # (base, power) = 1
-exp(0,1) #
+
+# exp(0,0) # (base, power) = 1
+# exp(0,1) # = 0
+# exp(1,0) # = 1
+# exp(1,1) # = 1
+# exp(1,2) # = 1
+# exp(2,0) # = 1
+# exp(2,1) # = 2
+# exp(2,2) # = 4
+
+robot_parts = [
+  ["nuts", "bolts", "washers"],
+  ["capacitors", "resistors", "inductors"]
+]
+
+robot_parts_copy = robot_parts.dup
+
+# shouldn't modify robot_parts
+robot_parts_copy[1] << "LEDs"
+# but it does
+robot_parts[1] # => ["capacitors", "resistors", "inductors", "LEDs"]
+
+def deep_dup(arr)
+  array = []
+  arr.each do |ele|
+    if !ele.is_a?(Array)
+        array << ele.dup
+    else
+       array << deep_dup(ele)
+    end
+  end
+  return array
+end
+
+# 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89
+def fibonacci(n) 
+  arr = []
+  return [0] if n == 0
+  return [1] if n == 1
+  return [1] if n == 2
+  (0...n).each do |num|
+  arr << fibonacci(n - 1) + fibonacci(n - 2) 
+end
+
+return arr
+end
