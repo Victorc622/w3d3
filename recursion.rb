@@ -19,12 +19,12 @@ end
 # end
 
 def range(num_1, num_2)
-    return [] if num_2 < num_1
-    return [1] if num_1 == 1
-
-    result = range(num_1, num_1+1) + range(num_2 - 2, num_2 - 1)
-        # [1, 2]        +          [3, 4]
-
+   return [] if num_2 <= num_1
+   if num_2 - num_1 == 1 
+    return [num_1] # 1
+   else
+    result = range(num_1, num_1 + 1) + range(num_1 + 1, num_2) # (num_1 num_1 + 1) num_1..num_2
     return result
+   end
 end
 p range(1, 5)
